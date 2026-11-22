@@ -62,4 +62,5 @@ AUD 300 to wholesale NoBESS and SelfCons in both years. Original analysis output
 The report discloses modelling limits including simultaneous charge/discharge, training targets
 that cross into 2024 and rolling terminal-energy treatment. These were not fixed in analysis.py.
 
-Codex also prepared this repository package and its README, gitignore and reconciliation record.
+Codex also prepared the repository documentation and organised the public repository under
+the single Assignment2_Analysis_Package folder. The report records the billing reconciliation.

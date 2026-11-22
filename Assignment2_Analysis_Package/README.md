@@ -59,7 +59,7 @@ The submitted report uses a consistent AUD 300 annual subscription fee for every
 The saved analysis assigns zero service fee to the wholesale `NoBESS` and `SelfCons` baselines,
 while wholesale `Optimised` and rolling-horizon cases already include it. To reconcile the report,
 add AUD 300 to those two baseline bills in each year. This changes accounting only, not dispatch.
-See `report_revision/bill_reconciliation.csv`; the original results remain unchanged.
+The reconciliation is documented in Appendix B3 of the report; original results remain unchanged.
 
 The report numbers for controlled wholesale, ToU, sizing, forecast errors and payback are unchanged.
 The report's figure numbering differs from the original `fig01`–`fig10` filenames.
@@ -75,7 +75,8 @@ summary. This check was not a fresh optimisation run.
 `AI_USE_LOG.md` records Claude's analysis assistance and the later author-confirmed Codex
 prose drafting and revision. The author supplied the report outline and ideas.
 
-## Access for assessment
+## Repository layout
 
-This package is prepared for a private repository. The marker needs GitHub access to a private
-repository; the URL alone does not grant access. Retain the supplied course data privately.
+All assessment code, data, saved results and documentation are contained in this
+`Assignment2_Analysis_Package` folder. Change into this folder before running the commands above.
+The repository is public so the marker can access it without an invitation.
