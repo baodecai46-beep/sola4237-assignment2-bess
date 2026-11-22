@@ -1,0 +1,28 @@
+{
+  "2023": {
+    "load_MWh": 4.011561405522999,
+    "pv_MWh": 14.051773752230675,
+    "load_kWh_day": 10.990579193213696,
+    "pv_kWh_day": 38.498010280084046,
+    "peak_load_kW": 2.66,
+    "peak_pv_kW": 10.87,
+    "direct_self_cons_pct": 15.415061392087177
+  },
+  "2024": {
+    "load_MWh": 4.024014340941863,
+    "pv_MWh": 14.895151666666667,
+    "load_kWh_day": 10.99457470202695,
+    "pv_kWh_day": 40.697135701275045,
+    "peak_load_kW": 2.66,
+    "peak_pv_kW": 8.65,
+    "direct_self_cons_pct": 14.760300554707385
+  },
+  "daily_deficit_kWh_pctiles": {
+    "0.5": 2.54,
+    "0.8": 9.17,
+    "0.9": 12.18,
+    "0.95": 13.7
+  },
+  "days_surplus_exceeds_deficit_pct": 91.51846785225717,
+  "kWp_estimate": 10.095503400248397
+}

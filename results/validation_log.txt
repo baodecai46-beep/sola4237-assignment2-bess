@@ -1,0 +1,167 @@
+PASS: timestamps unique (no DST duplicates)
+PASS: regular 5-minute grid, 2023-01-01 to 2024-12-31, no missing rows
+Monthly irradiance centroid (h): [12.9  12.99 12.91 12.73 12.7  12.77 12.91 12.78 12.66 12.52 12.5  12.67] -> no DST shift, fixed AEST
+PASS: no daylight-saving shift in timestamps
+PASS: irradiance, temperature and load gaps occur at identical timestamps (logger outage)
+Missing data: {'irr': {'2023': 512, '2024': 541}, 'temp': {'2023': 512, '2024': 541}, 'load': {'2023': 512, '2024': 541}, 'pv_meas': {'2023': 512, '2024': 'not provided'}, 'pv_comm': {'2023': 'not provided', '2024': 0}, 'spot': {'2023': 0, '2024': 'not provided (AEMO)'}, 'load_gap_runs': {'count': 30, 'max_steps': 288, 'longest_gap_day': '2024-11-30'}}
+PASS: no negative power or night-time PV
+PASS: 2023 spot prices within NEM market floor/cap
+PASS: load/weather complete after gap filling
+PASS: gap filling changes mean load by <1%
+Physical PV model: P = 8.58 kW x G/1000 x temp factor -> ~10.1 kWp at PR 0.85
+PASS: PV series complete for both years
+                                      MAE   RMSE  nRMSE_cap_pct  nRMSE_daymean_pct   bias     R2  annual_kWh_pred  annual_kWh_act
+phys_train_2023                     0.177  0.449          4.443             21.370  0.022  0.961        14185.687       13990.013
+ml_train_2023                       0.170  0.428          4.241             20.402 -0.001  0.965        13983.235       13990.013
+pv_phys_test_2024_vs_commercial     0.057  0.164          1.628              7.412 -0.020  0.995        14717.310       14895.152
+pv_ml_test_2024_vs_commercial       0.054  0.152          1.503              6.840 -0.043  0.996        14521.748       14895.152
+pv_persist_test_2024_vs_commercial  0.351  0.826          8.180             37.235 -0.000  0.875        14893.090       14895.152
+PV forecast used in the scheduler: pv_ml
+Joined AEMO 2024 prices, 1 labels missing and interpolated
+2024 price source: AEMO VIC1 2024 RRP (official)
+PASS: spot price complete for both years
+               MAE    RMSE  MAE_h1_6  MAE_h25_48    corr
+pred        0.0588  0.3259    0.0526      0.0613  0.2470
+naive_med7  0.0600  0.3287    0.0584      0.0616  0.2094
+persist     0.0930  0.4579    0.0715      0.0980  0.0701
+{2023: {'load_MWh': np.float64(4.011561405522999), 'pv_MWh': np.float64(14.051773752230675), 'load_kWh_day': np.float64(10.990579193213696), 'pv_kWh_day': np.float64(38.498010280084046), 'peak_load_kW': 2.66, 'peak_pv_kW': 10.87, 'direct_self_cons_pct': np.float64(15.415061392087177)}, 2024: {'load_MWh': np.float64(4.024014340941863), 'pv_MWh': np.float64(14.895151666666667), 'load_kWh_day': np.float64(10.99457470202695), 'pv_kWh_day': np.float64(40.697135701275045), 'peak_load_kW': 2.66, 'peak_pv_kW': 8.65, 'direct_self_cons_pct': np.float64(14.760300554707385)}, 'daily_deficit_kWh_pctiles': {0.5: 2.54, 0.8: 9.17, 0.9: 12.18, 0.95: 13.7}, 'days_surplus_exceeds_deficit_pct': 91.51846785225717, 'kWp_estimate': 10.095503400248397}
+    year     tariff       mode  annual_bill  self_consumption_pct  self_sufficiency_pct  equiv_cycles  saving_vs_NoBESS
+0   2024       Flat     NoBESS       -87.20                 14.76                 54.64           NaN              0.00
+1   2024       Flat   SelfCons      -435.15                 25.37                 90.00        167.44            347.96
+2   2024       Flat  Optimised      -435.31                 25.35                 90.00        167.44            348.11
+3   2024        ToU     NoBESS      -153.09                 14.76                 54.64           NaN              0.00
+4   2024        ToU   SelfCons      -462.59                 25.37                 90.00        167.44            309.50
+5   2024        ToU  Optimised      -490.35                 25.35                 89.69        181.13            337.26
+6   2024  Wholesale     NoBESS       310.67                 14.76                 54.64           NaN              0.00
+7   2024  Wholesale   SelfCons         3.35                 25.37                 90.00        167.44            307.31
+8   2024  Wholesale  Optimised      -802.71                 34.43                 65.46        399.77           1113.37
+9   2023       Flat     NoBESS       -40.64                 15.42                 54.00           NaN              0.00
+10  2023       Flat   SelfCons      -387.86                 26.64                 89.40        167.08            347.21
+11  2023       Flat  Optimised      -388.01                 26.61                 89.40        167.08            347.37
+12  2023        ToU     NoBESS      -107.18                 15.42                 54.00           NaN              0.00
+13  2023        ToU   SelfCons      -414.66                 26.64                 89.40        167.08            307.48
+14  2023        ToU  Optimised      -445.30                 26.61                 89.07        181.36            338.12
+15  2023  Wholesale     NoBESS       426.42                 15.42                 54.00           NaN              0.00
+16  2023  Wholesale   SelfCons       151.56                 26.64                 89.40        167.08            274.86
+17  2023  Wholesale  Optimised      -267.64                 35.54                 65.86        376.30            694.06
+PASS: energy balance closes in every scenario
+Self-consumption check: rule-based import 402.2 kWh vs LP minimum 402.2 kWh
+PASS: rule-based self-consumption within 3% of LP-optimal grid import
+[181s] perfect foresight done
+     kWh   kW     tariff       mode  annual_bill  saving_vs_ToU_noBESS  self_consumption_pct  self_sufficiency_pct  cycles    capex  payback_yr     npv10  payback_rebate_yr  npv10_rebate
+0    2.5  2.5        ToU   SelfCons      -303.72                150.63                 19.96                 72.02  329.15   3875.0       25.73  -2802.56              21.49      -2165.06
+1    2.5  2.5        ToU  Optimised      -337.52                184.43                 19.96                 71.55  409.39   3875.0       21.01  -2561.89              17.55      -1924.39
+2    2.5  2.5  Wholesale   SelfCons       163.14               -316.23                 19.96                 72.02  329.15   3875.0         inf  -6126.51                inf      -5489.01
+3    2.5  2.5  Wholesale  Optimised      -141.20                -11.89                 20.42                 62.40  552.25   3875.0         inf  -3959.66                inf      -3322.16
+4    5.0  5.0        ToU   SelfCons      -379.87                226.78                 22.31                 79.83  238.58   5750.0       25.36  -4135.37              19.73      -2860.37
+5    5.0  5.0        ToU  Optimised      -417.08                263.99                 22.30                 79.34  281.53   5750.0       21.78  -3870.43              16.95      -2595.43
+6    5.0  5.0  Wholesale   SelfCons        99.82               -252.91                 22.31                 79.83  238.58   5750.0         inf  -7550.67                inf      -6275.67
+7    5.0  5.0  Wholesale  Optimised      -447.50                294.41                 25.69                 61.98  494.83   5750.0       19.53  -3653.84              15.20      -2378.84
+8    7.5  5.0        ToU   SelfCons      -430.49                277.40                 24.04                 85.61  195.49   7625.0       27.49  -5649.97              20.59      -3737.47
+9    7.5  5.0        ToU  Optimised      -464.15                311.06                 24.03                 85.19  219.56   7625.0       24.51  -5410.30              18.36      -3497.80
+10   7.5  5.0  Wholesale   SelfCons        56.80               -209.89                 24.04                 85.61  195.49   7625.0         inf  -9119.41                inf      -7206.91
+11   7.5  5.0  Wholesale  Optimised      -639.46                486.37                 30.12                 64.03  433.07   7625.0       15.68  -4162.11              11.75      -2249.61
+12  10.0  5.0        ToU   SelfCons      -462.59                309.50                 25.37                 90.00  167.44   9500.0       30.69  -7296.42              22.46      -4746.42
+13  10.0  5.0        ToU  Optimised      -490.35                337.26                 25.35                 89.69  181.13   9500.0       28.17  -7098.79              20.61      -4548.79
+14  10.0  5.0  Wholesale   SelfCons         3.35               -156.44                 25.37                 90.00  167.44   9500.0         inf -10613.85                inf      -8063.85
+15  10.0  5.0  Wholesale  Optimised      -802.71                649.62                 34.43                 65.46  399.77   9500.0       14.62  -4874.82              10.70      -2324.82
+16  13.5  5.0        ToU   SelfCons      -488.97                335.88                 26.57                 93.98  137.97  12125.0       36.10  -9733.59              25.85      -6291.09
+17  13.5  5.0        ToU  Optimised      -509.05                355.96                 26.54                 93.77  144.63  12125.0       34.06  -9590.62              24.39      -6148.12
+18  13.5  5.0  Wholesale   SelfCons       -24.64               -128.45                 26.57                 93.98  137.97  12125.0         inf -13039.51                inf      -9597.01
+19  13.5  5.0  Wholesale  Optimised      -975.76                822.67                 40.03                 66.62  367.66  12125.0       14.74  -6267.70              10.55      -2825.20
+20  16.0  5.0        ToU   SelfCons      -498.72                345.63                 27.03                 95.51  120.93  14000.0       40.51 -11539.15              28.70      -7459.15
+21  16.0  5.0        ToU  Optimised      -515.53                362.44                 26.99                 95.35  125.27  14000.0       38.63 -11419.50              27.37      -7339.50
+22  16.0  5.0  Wholesale   SelfCons       -34.46               -118.63                 27.03                 95.51  120.93  14000.0         inf -14844.60                inf     -10764.60
+23  16.0  5.0  Wholesale  Optimised     -1056.63                903.54                 43.66                 66.54  350.32  14000.0       15.49  -7566.98              10.98      -3486.98
+24  20.0  5.0        ToU   SelfCons      -507.78                354.69                 27.42                 96.75   99.69  17000.0       47.93 -14474.65              33.55      -9374.65
+25  20.0  5.0        ToU  Optimised      -520.63                367.54                 27.37                 96.64  102.28  17000.0       46.25 -14383.21              32.38      -9283.21
+26  20.0  5.0  Wholesale   SelfCons       -42.38               -110.71                 27.42                 96.75   99.69  17000.0         inf -17788.25                inf     -12688.25
+27  20.0  5.0  Wholesale  Optimised     -1162.21               1009.12                 48.87                 65.53  327.17  17000.0       16.85  -9815.23              11.79      -4715.23
+[114s] sizing done
+      tariff          pv        price  annual_bill  annual_bill_adj  self_consumption_pct  equiv_cycles  terminal_soc_kWh
+0  Wholesale      actual       actual      -766.13          -765.36                 36.45        400.22               1.0
+1  Wholesale       pv_ml       actual      -763.14          -762.37                 36.34        399.40               1.0
+2  Wholesale      actual     forecast      -263.15          -262.37                 35.58        358.41               1.0
+3  Wholesale       pv_ml     forecast      -259.75          -258.98                 35.47        357.99               1.0
+4  Wholesale  pv_persist     forecast      -233.10          -232.33                 33.66        358.76               1.0
+5  Wholesale       pv_ml  forecast+RT      -386.30          -385.53                 35.23        355.15               1.0
+6        ToU       pv_ml       actual      -487.33          -486.41                 25.20        180.14               1.0
+7        ToU      actual       actual      -490.56          -489.64                 25.32        181.13               1.0
+8       Flat       pv_ml       actual      -431.97          -430.83                 25.21        166.22               1.0
+[760s] rolling horizon done
+PASS: rolling-horizon SoC stays within limits
+PASS: rolling-horizon energy balance closes
+          case   deg topo     tariff       mode  annual_bill  cycles  wear_cost  grid_charge_kWh  self_consumption_pct  bill_plus_wear
+0      deg=0.0  0.00   AC        ToU   SelfCons      -462.59  167.44       0.00             0.00                 25.37         -462.59
+1      deg=0.0  0.00   AC        ToU  Optimised      -490.35  181.13       0.00           128.99                 25.35         -490.35
+2      deg=0.0  0.00   AC  Wholesale   SelfCons         3.35  167.44       0.00             0.00                 25.37            3.35
+3      deg=0.0  0.00   AC  Wholesale  Optimised      -838.61  648.63       0.00          1297.14                 44.06         -838.61
+4     deg=0.02  0.02   AC        ToU   SelfCons      -462.59  167.44      28.46             0.00                 25.37         -434.13
+5     deg=0.02  0.02   AC        ToU  Optimised      -490.35  181.13      30.79           128.99                 25.35         -459.55
+6     deg=0.02  0.02   AC  Wholesale   SelfCons         3.35  167.44      28.46             0.00                 25.37           31.82
+7     deg=0.02  0.02   AC  Wholesale  Optimised      -827.42  487.86      82.94           987.38                 37.50         -744.48
+8     deg=0.05  0.05   AC        ToU   SelfCons      -462.59  167.44      71.16             0.00                 25.37         -391.43
+9     deg=0.05  0.05   AC        ToU  Optimised      -490.35  181.13      76.98           128.99                 25.35         -413.37
+10    deg=0.05  0.05   AC  Wholesale   SelfCons         3.35  167.44      71.16             0.00                 25.37           74.51
+11    deg=0.05  0.05   AC  Wholesale  Optimised      -802.71  399.77     169.90           678.37                 34.43         -632.81
+12     deg=0.1  0.10   AC        ToU   SelfCons      -462.59  167.44     142.32             0.00                 25.37         -320.27
+13     deg=0.1  0.10   AC        ToU  Optimised      -432.50  107.81      91.64            15.27                 21.47         -340.86
+14     deg=0.1  0.10   AC  Wholesale   SelfCons         3.35  167.44     142.32             0.00                 25.37          145.67
+15     deg=0.1  0.10   AC  Wholesale  Optimised      -740.06  301.08     255.92           452.39                 29.98         -484.14
+16     deg=0.2  0.20   AC        ToU   SelfCons      -462.59  167.44     284.64             0.00                 25.37         -177.95
+17     deg=0.2  0.20   AC        ToU  Optimised      -387.28   80.48     136.81            15.27                 19.75         -250.47
+18     deg=0.2  0.20   AC  Wholesale   SelfCons         3.35  167.44     284.64             0.00                 25.37          287.99
+19     deg=0.2  0.20   AC  Wholesale  Optimised      -554.08  150.23     255.38           256.97                 21.99         -298.70
+20  DC-coupled  0.05   DC        ToU   SelfCons      -465.12  167.68      71.26             0.00                 25.11         -393.85
+21  DC-coupled  0.05   DC        ToU  Optimised      -492.19  181.26      77.03           130.61                 25.09         -415.16
+22  DC-coupled  0.05   DC  Wholesale   SelfCons         1.37  167.68      71.26             0.00                 25.11           72.64
+23  DC-coupled  0.05   DC  Wholesale  Optimised      -804.61  399.87     169.95           653.96                 34.35         -634.66
+[105s] sensitivities done
+             band       run  share_of_intervals  net_credit  discharge_kWh
+0        negative   perfect                0.21       27.70          45.35
+1        negative  forecast                0.21      -36.85          75.44
+2     0-100 $/MWh   perfect                0.44       72.28         759.41
+3     0-100 $/MWh  forecast                0.44       93.68        1103.19
+4         100-300   perfect                0.33      394.11        2298.17
+5         100-300  forecast                0.33      239.08        1739.78
+6  >=300 (spikes)   perfect                0.01      608.62         295.10
+7  >=300 (spikes)  forecast                0.01      263.84         124.51
+{
+ "price_source": "AEMO VIC1 2024 RRP (official)",
+ "pv_forecast_model": "pv_ml",
+ "kWp_estimate": 10.095503400248397,
+ "bills_2024": {
+  "Flat | NoBESS": -87.2,
+  "Flat | SelfCons": -435.15,
+  "Flat | Optimised": -435.31,
+  "ToU | NoBESS": -153.09,
+  "ToU | SelfCons": -462.59,
+  "ToU | Optimised": -490.35,
+  "Wholesale | NoBESS": 310.67,
+  "Wholesale | SelfCons": 3.35,
+  "Wholesale | Optimised": -802.71
+ },
+ "rolling_2024": {
+  "Wholesale | actual | actual": -765.36,
+  "Wholesale | pv_ml | actual": -762.37,
+  "Wholesale | actual | forecast": -262.37,
+  "Wholesale | pv_ml | forecast": -258.98,
+  "Wholesale | pv_persist | forecast": -232.33,
+  "Wholesale | pv_ml | forecast+RT": -385.53,
+  "ToU | pv_ml | actual": -486.41,
+  "ToU | actual | actual": -489.64,
+  "Flat | pv_ml | actual": -430.83
+ },
+ "best_fixed_tariff_bill": -490.34675964183435,
+ "best_fixed_tariff_case": "('ToU', 'Optimised')",
+ "vpp_realistic_bill": -258.9775159295997,
+ "vpp_perfect_bill": -802.7090999961961,
+ "vpp_refined_rt_bill": -385.52730970549874,
+ "vpp_refined_benefit_vs_best_fixed": -104.81944993633562,
+ "vpp_net_customer_benefit_vs_best_fixed": -231.36924371223466,
+ "vpp_fee_year": 300.0,
+ "forecast_value_loss_total": 543.7315840665964,
+ "loss_pv_only": 2.9902446310600226,
+ "loss_price_only": 502.9823449288979,
+ "loss_horizon": 37.35221737527627
+}

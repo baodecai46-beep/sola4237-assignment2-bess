@@ -1,0 +1,185 @@
+{
+  "price_source": "AEMO VIC1 2024 RRP (official)",
+  "pv_forecast_model": "pv_ml",
+  "kWp_estimate": 10.095503400248397,
+  "site": {
+    "2023": {
+      "load_MWh": 4.011561405522999,
+      "pv_MWh": 14.051773752230675,
+      "load_kWh_day": 10.990579193213696,
+      "pv_kWh_day": 38.498010280084046,
+      "peak_load_kW": 2.66,
+      "peak_pv_kW": 10.87,
+      "direct_self_cons_pct": 15.415061392087177
+    },
+    "2024": {
+      "load_MWh": 4.024014340941863,
+      "pv_MWh": 14.895151666666667,
+      "load_kWh_day": 10.99457470202695,
+      "pv_kWh_day": 40.697135701275045,
+      "peak_load_kW": 2.66,
+      "peak_pv_kW": 8.65,
+      "direct_self_cons_pct": 14.760300554707385
+    },
+    "daily_deficit_kWh_pctiles": {
+      "0.5": 2.54,
+      "0.8": 9.17,
+      "0.9": 12.18,
+      "0.95": 13.7
+    },
+    "days_surplus_exceeds_deficit_pct": 91.51846785225717,
+    "kWp_estimate": 10.095503400248397
+  },
+  "missing": {
+    "irr": {
+      "2023": 512,
+      "2024": 541
+    },
+    "temp": {
+      "2023": 512,
+      "2024": 541
+    },
+    "load": {
+      "2023": 512,
+      "2024": 541
+    },
+    "pv_meas": {
+      "2023": 512,
+      "2024": "not provided"
+    },
+    "pv_comm": {
+      "2023": "not provided",
+      "2024": 0
+    },
+    "spot": {
+      "2023": 0,
+      "2024": "not provided (AEMO)"
+    },
+    "load_gap_runs": {
+      "count": 30,
+      "max_steps": 288,
+      "longest_gap_day": "2024-11-30"
+    }
+  },
+  "spurious_flags": {
+    "negative_values": 0,
+    "pv_at_night": 0,
+    "irr_above_1100": 0,
+    "temp_flatline_steps_ge_3h": 181,
+    "temp_exact_zero_2023": 15,
+    "temp_min_2023": 0.0,
+    "temp_min_2024": -1.4,
+    "spot_outside_market_limits": 0,
+    "spot_negative_share_2023": 0.21631468797564687,
+    "spot_max_2023": 14.52226
+  },
+  "pv_metrics": {
+    "phys_train_2023": {
+      "MAE": 0.1773287106272555,
+      "RMSE": 0.4485162280264431,
+      "nRMSE_cap_pct": 4.44273267260162,
+      "nRMSE_daymean_pct": 21.37015141811397,
+      "bias": 0.022446516420925617,
+      "R2": 0.9612520828516049,
+      "annual_kWh_pred": 14185.68709914668,
+      "annual_kWh_act": 13990.01333333333
+    },
+    "ml_train_2023": {
+      "MAE": 0.17049678092114096,
+      "RMSE": 0.4281962839812887,
+      "nRMSE_cap_pct": 4.241455497610481,
+      "nRMSE_daymean_pct": 20.401627125167437,
+      "bias": -0.0007775189426148094,
+      "R2": 0.9646834860563074,
+      "annual_kWh_pred": 13983.235441537578,
+      "annual_kWh_act": 13990.01333333333
+    },
+    "pv_phys_test_2024_vs_commercial": {
+      "MAE": 0.056528188439099396,
+      "RMSE": 0.164380252291074,
+      "nRMSE_cap_pct": 1.6282521611258083,
+      "nRMSE_daymean_pct": 7.411528199808371,
+      "bias": -0.020246109651788562,
+      "R2": 0.9950544802579034,
+      "annual_kWh_pred": 14717.309839485353,
+      "annual_kWh_act": 14895.151666666667
+    },
+    "pv_ml_test_2024_vs_commercial": {
+      "MAE": 0.05391379687197051,
+      "RMSE": 0.15173713888563037,
+      "nRMSE_cap_pct": 1.503017064824097,
+      "nRMSE_daymean_pct": 6.840498846439738,
+      "bias": -0.042509523829031275,
+      "R2": 0.9957859815156265,
+      "annual_kWh_pred": 14521.748009352454,
+      "annual_kWh_act": 14895.151666666667
+    },
+    "pv_persist_test_2024_vs_commercial": {
+      "MAE": 0.3505511915604128,
+      "RMSE": 0.8257877775046183,
+      "nRMSE_cap_pct": 8.179758301941634,
+      "nRMSE_daymean_pct": 37.234819612202585,
+      "bias": -0.00023470704310868146,
+      "R2": 0.8751899504201939,
+      "annual_kWh_pred": 14893.09,
+      "annual_kWh_act": 14895.151666666667
+    }
+  },
+  "price_metrics": {
+    "pred": {
+      "MAE": 0.05879457123289975,
+      "RMSE": 0.32592202821098076,
+      "MAE_h1_6": 0.05263279008667535,
+      "MAE_h25_48": 0.061296302816987,
+      "corr": 0.2469966540073255
+    },
+    "naive_med7": {
+      "MAE": 0.06000404541137936,
+      "RMSE": 0.32870614630644607,
+      "MAE_h1_6": 0.05839558445153006,
+      "MAE_h25_48": 0.061578910694214256,
+      "corr": 0.20941489563414686
+    },
+    "persist": {
+      "MAE": 0.09299635358205073,
+      "RMSE": 0.45792728764465074,
+      "MAE_h1_6": 0.07149538205317998,
+      "MAE_h25_48": 0.09798279117293124,
+      "corr": 0.07012968979043574
+    }
+  },
+  "bills_2024": {
+    "Flat | NoBESS": -87.2,
+    "Flat | SelfCons": -435.15,
+    "Flat | Optimised": -435.31,
+    "ToU | NoBESS": -153.09,
+    "ToU | SelfCons": -462.59,
+    "ToU | Optimised": -490.35,
+    "Wholesale | NoBESS": 310.67,
+    "Wholesale | SelfCons": 3.35,
+    "Wholesale | Optimised": -802.71
+  },
+  "rolling_2024": {
+    "Wholesale | actual | actual": -765.36,
+    "Wholesale | pv_ml | actual": -762.37,
+    "Wholesale | actual | forecast": -262.37,
+    "Wholesale | pv_ml | forecast": -258.98,
+    "Wholesale | pv_persist | forecast": -232.33,
+    "Wholesale | pv_ml | forecast+RT": -385.53,
+    "ToU | pv_ml | actual": -486.41,
+    "ToU | actual | actual": -489.64,
+    "Flat | pv_ml | actual": -430.83
+  },
+  "best_fixed_tariff_bill": -490.34675964183435,
+  "best_fixed_tariff_case": "('ToU', 'Optimised')",
+  "vpp_realistic_bill": -258.9775159295997,
+  "vpp_perfect_bill": -802.7090999961961,
+  "vpp_refined_rt_bill": -385.52730970549874,
+  "vpp_refined_benefit_vs_best_fixed": -104.81944993633562,
+  "vpp_net_customer_benefit_vs_best_fixed": -231.36924371223466,
+  "vpp_fee_year": 300.0,
+  "forecast_value_loss_total": 543.7315840665964,
+  "loss_pv_only": 2.9902446310600226,
+  "loss_price_only": 502.9823449288979,
+  "loss_horizon": 37.35221737527627
+}
